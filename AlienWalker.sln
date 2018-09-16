@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlienWalker", "Assembly-CSharp.csproj", "{803E3E29-5647-5118-B801-3260647DC682}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{803E3E29-5647-5118-B801-3260647DC682}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlienWalker", "Assembly-CSharp-firstpass.csproj", "{52FD5288-3C6E-C4FD-D412-BDB3A51C801E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-firstpass", "Assembly-CSharp-firstpass.csproj", "{52FD5288-3C6E-C4FD-D412-BDB3A51C801E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlienWalker", "Assembly-CSharp-Editor-firstpass.csproj", "{33DC392E-9AF5-EF24-6BE6-EF308C2D0896}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor-firstpass", "Assembly-CSharp-Editor-firstpass.csproj", "{33DC392E-9AF5-EF24-6BE6-EF308C2D0896}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
