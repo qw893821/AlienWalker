@@ -2,19 +2,32 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-
+public enum Action{
+    idle,
+    walk,
+    run,
+    attack
+}
 public class PlayerActionController: MonoBehaviour, IActionController {
     Vector3 targetPos;
     public float speed { get; set; }
+    public Action act { get; set; }
+    AnimationController ac;
     Ray cameraRay;// a ray cast from main camera to mouse 
     NavMeshAgent agent;
     void Start()
     {
         agent = transform.GetComponent<NavMeshAgent>();
+        ac = transform.GetComponent<AnimationController>();
     }
     void Update()
     {
         Move();
+        AnimationChanger();
+        if (transform.position == agent.destination)
+        {
+            act = Action.idle;
+        }
     }
 
 
@@ -22,9 +35,10 @@ public class PlayerActionController: MonoBehaviour, IActionController {
     {
         if (Input.GetButton("Fire1"))
         {
+            act = Action.run;
             agent.destination = TargetPos();
-            Debug.Log("move");
         }
+        
         //agent.destination = targetPos;
     }
 
@@ -50,5 +64,31 @@ public class PlayerActionController: MonoBehaviour, IActionController {
             pos = transform.position;
         }
         return pos;
+    }
+
+    void AnimationChanger()
+    {
+        switch (act){
+            case Action.idle:
+                ac.idle = true;
+                ac.walk = false;
+                ac.run = false;
+                break;
+            case Action.walk:
+                ac.idle = false;
+                ac.walk = true;
+                ac.run = false;
+                break;
+            case Action.run:
+                ac.idle = false;
+                ac.walk = false;
+                ac.run = true;
+                break;
+            default:
+                ac.idle = true;
+                ac.walk = false;
+                ac.run = false;
+                break;
+        }
     }
 }

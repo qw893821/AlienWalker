@@ -4,7 +4,8 @@ using UnityEngine;
 
 public interface IActionController {
     float speed { get; set; }
-    
+    Action act { get;set; }
     void Move();
     void Attack();
+    
 }
