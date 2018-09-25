@@ -15,10 +15,17 @@ public class PlayerActionController: MonoBehaviour, IActionController {
     AnimationController ac;
     Ray cameraRay;// a ray cast from main camera to mouse 
     NavMeshAgent agent;
+
+    //double click timer
+    public float doubleClickTimer;
+    public float doubleClickTime;
+    bool isSingle;
     void Start()
     {
         agent = transform.GetComponent<NavMeshAgent>();
         ac = transform.GetComponent<AnimationController>();
+        doubleClickTimer = 0f;
+        isSingle = false;
     }
     void Update()
     {
@@ -28,17 +35,20 @@ public class PlayerActionController: MonoBehaviour, IActionController {
         {
             act = Action.idle;
         }
+
+        //temp code
+        
     }
 
 
     public virtual void Move()
     {
-        if (Input.GetButton("Fire1"))
+        if (Input.GetButtonDown("Fire1"))
         {
-            act = Action.run;
+            //act = Action.walk;
+            act=WalkRunSwitcher();
             agent.destination = TargetPos();
         }
-        
         //agent.destination = targetPos;
     }
 
@@ -90,5 +100,43 @@ public class PlayerActionController: MonoBehaviour, IActionController {
                 ac.run = false;
                 break;
         }
+    }
+
+    //have some issue
+    Action WalkRunSwitcher()
+    {
+        //a precheck if the timer have exceed the setted double check time
+        if (doubleClickTimer > doubleClickTime)
+        {
+            isSingle = false;
+            StopCoroutine(DoubleClickTimer());
+            doubleClickTimer = 0;
+        }
+        //if (Input.GetButton("Fire1")) {
+        if (!isSingle)
+        {
+            StartCoroutine(DoubleClickTimer());
+            isSingle = true;
+            Debug.Log("walk");
+            return Action.walk;
+        }
+        else 
+        {
+            //StopCoroutine(DoubleClickTimer());
+            doubleClickTimer = 0;
+            isSingle = false;
+            Debug.Log("run");
+            return Action.run;
+        }
+        //}
+
+    }
+
+    IEnumerator DoubleClickTimer()
+    {
+        doubleClickTimer += Time.deltaTime;
+        yield return new WaitForSeconds(0.016f);
+        DoubleClickTimer();
+        yield return null;
     }
 }
