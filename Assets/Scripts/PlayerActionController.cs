@@ -138,22 +138,37 @@ public class PlayerActionController: MonoBehaviour, IActionController {
         //a precheck if the timer have exceed the setted double check time
         
         //if (Input.GetButton("Fire1")) {
-        if (!doubleTimer.isInner)
+        if (!doubleTimer.trigger)
         {
-            StartCoroutine(doubleTimer.InnerTimeCounter());
-            doubleTimer.isInner = true;
-            act= Action.walk;
+            
+            doubleTimer.trigger = true;
+            StartCoroutine(DoubleTimer());
+            act = Action.walk;
         }
         else
         {
-            StopCoroutine(doubleTimer.InnerTimeCounter());
+            //StopCoroutine(DoubleTimer());
             doubleTimer.timer = 0f;
-            doubleTimer.isInner = false;
+            doubleTimer.trigger = false;
             act= Action.run;
         }
         //}
-
     }
 
+    IEnumerator DoubleTimer()
+    {
+        //in this case, frame rate is 30. so the value here is 0.03f
+        if (doubleTimer.trigger)
+        {
+            doubleTimer.InnerTimeCounter();
+            yield return new WaitForSeconds(0.03f);
+            StartCoroutine(DoubleTimer());
+        }
+        //add a condiition check to stop the interator
+        else
+        {
+            yield return null;
+        }
+    }
    
 }

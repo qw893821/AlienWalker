@@ -1,31 +1,39 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public class Timer :MonoBehaviour{
+public class Timer{
     public float time;
     public float timer=0f;
     public bool isInner;
     public bool isOutter;
+
+    //a trigger to start the count;
+    public bool trigger=false;
+
     public Timer(float fixedval)
     {
         time = fixedval;
     }
-    public IEnumerator InnerTimeCounter()
+    public void InnerTimeCounter()
     {
+        Counter();
         if (timer > time)
         {
-            isInner = false;
-            StopCoroutine(InnerTimeCounter());
-            timer = 0;
+            trigger = false;
+        }
+        else { }
+    }
+
+    void Counter()
+    {
+        if (trigger)
+        {
+            timer += Time.deltaTime;
         }
         else
         {
-            timer += Time.deltaTime;
-            yield return new WaitForSeconds(0.016f);
-            StartCoroutine(InnerTimeCounter());
-            Debug.Log("counting");
+            timer = 0;
         }
-        yield return null;
     }
 
 }
