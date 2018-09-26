@@ -19,7 +19,7 @@ public class PlayerActionController: MonoBehaviour, IActionController {
     //double click timer
     public float doubleClickTimer;
     public float doubleClickTime;
-    bool isSingle;
+    public  bool isSingle;
     void Start()
     {
         agent = transform.GetComponent<NavMeshAgent>();
@@ -46,7 +46,7 @@ public class PlayerActionController: MonoBehaviour, IActionController {
         if (Input.GetButtonDown("Fire1"))
         {
             //act = Action.walk;
-            act=WalkRunSwitcher();
+            /*act=*/WalkRunSwitcher();
             agent.destination = TargetPos();
         }
         //agent.destination = targetPos;
@@ -103,30 +103,53 @@ public class PlayerActionController: MonoBehaviour, IActionController {
     }
 
     //have some issue
-    Action WalkRunSwitcher()
+    //Action WalkRunSwitcher()
+    //{
+    //    //a precheck if the timer have exceed the setted double check time
+    //    if (doubleClickTimer > doubleClickTime)
+    //    {
+    //        isSingle = false;
+    //        StopCoroutine(DoubleClickTimer());
+    //        doubleClickTimer = 0;
+    //    }
+    //    //if (Input.GetButton("Fire1")) {
+    //    if (!isSingle)
+    //    {
+    //        StartCoroutine(DoubleClickTimer());
+    //        isSingle = true;
+    //        Debug.Log("walk");
+    //        return Action.walk;
+    //    }
+    //    else 
+    //    {
+    //        //StopCoroutine(DoubleClickTimer());
+    //        doubleClickTimer = 0;
+    //        isSingle = false;
+    //        Debug.Log("run");
+    //        return Action.run;
+    //    }
+    //    //}
+
+    //}
+    void WalkRunSwitcher()
     {
         //a precheck if the timer have exceed the setted double check time
-        if (doubleClickTimer > doubleClickTime)
-        {
-            isSingle = false;
-            StopCoroutine(DoubleClickTimer());
-            doubleClickTimer = 0;
-        }
+        
         //if (Input.GetButton("Fire1")) {
         if (!isSingle)
         {
             StartCoroutine(DoubleClickTimer());
             isSingle = true;
             Debug.Log("walk");
-            return Action.walk;
+            act= Action.walk;
         }
-        else 
+        else
         {
             //StopCoroutine(DoubleClickTimer());
             doubleClickTimer = 0;
             isSingle = false;
             Debug.Log("run");
-            return Action.run;
+            act= Action.run;
         }
         //}
 
@@ -134,9 +157,18 @@ public class PlayerActionController: MonoBehaviour, IActionController {
 
     IEnumerator DoubleClickTimer()
     {
-        doubleClickTimer += Time.deltaTime;
-        yield return new WaitForSeconds(0.016f);
-        DoubleClickTimer();
-        yield return null;
+        if (doubleClickTimer > doubleClickTime)
+        {
+            isSingle = false;
+            StopCoroutine(DoubleClickTimer());
+            doubleClickTimer = 0;
+        }
+        else
+        {
+            doubleClickTimer += Time.deltaTime;
+            yield return new WaitForSeconds(0.016f);
+            StartCoroutine(DoubleClickTimer());
+        }
+        //yield return null;
     }
 }
