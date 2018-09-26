@@ -15,17 +15,19 @@ public class PlayerActionController: MonoBehaviour, IActionController {
     AnimationController ac;
     Ray cameraRay;// a ray cast from main camera to mouse 
     NavMeshAgent agent;
-
+    
     //double click timer
-    public float doubleClickTimer;
+    //public float doubleClickTimer;
     public float doubleClickTime;
-    public  bool isSingle;
+    public Timer doubleTimer;
+    //public  bool isSingle;
     void Start()
     {
         agent = transform.GetComponent<NavMeshAgent>();
         ac = transform.GetComponent<AnimationController>();
-        doubleClickTimer = 0f;
-        isSingle = false;
+        //doubleClickTimer = 0f;
+        doubleTimer = new Timer(doubleClickTime);
+        //isSingle = false;
     }
     void Update()
     {
@@ -136,39 +138,22 @@ public class PlayerActionController: MonoBehaviour, IActionController {
         //a precheck if the timer have exceed the setted double check time
         
         //if (Input.GetButton("Fire1")) {
-        if (!isSingle)
+        if (!doubleTimer.isInner)
         {
-            StartCoroutine(DoubleClickTimer());
-            isSingle = true;
-            Debug.Log("walk");
+            StartCoroutine(doubleTimer.InnerTimeCounter());
+            doubleTimer.isInner = true;
             act= Action.walk;
         }
         else
         {
-            //StopCoroutine(DoubleClickTimer());
-            doubleClickTimer = 0;
-            isSingle = false;
-            Debug.Log("run");
+            StopCoroutine(doubleTimer.InnerTimeCounter());
+            doubleTimer.timer = 0f;
+            doubleTimer.isInner = false;
             act= Action.run;
         }
         //}
 
     }
 
-    IEnumerator DoubleClickTimer()
-    {
-        if (doubleClickTimer > doubleClickTime)
-        {
-            isSingle = false;
-            StopCoroutine(DoubleClickTimer());
-            doubleClickTimer = 0;
-        }
-        else
-        {
-            doubleClickTimer += Time.deltaTime;
-            yield return new WaitForSeconds(0.016f);
-            StartCoroutine(DoubleClickTimer());
-        }
-        //yield return null;
-    }
+   
 }
