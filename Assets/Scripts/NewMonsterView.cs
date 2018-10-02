@@ -1,12 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class NewMonsterView : MonoBehaviour {
     [Range(30.0f,90.0f)]
 	public float viewAngle;
     public float viewRange;
 
+    //test text shows if player in view
+    public GameObject text;
+    Text testText;
+
+    private void Start()
+    {
+        testText = text.GetComponent<Text>();
+    }
     private void Update()
     {
         TargetInViewCheck();
@@ -30,7 +39,9 @@ public class NewMonsterView : MonoBehaviour {
                 {
                     RayToTarget(col.transform);
                 }
+                else { testText.text = "not in view"; }
             }
+            
         }
         
     }
@@ -43,8 +54,9 @@ public class NewMonsterView : MonoBehaviour {
         {
             if (hit.transform.tag == "Player")
             {
-                Debug.Log("player in view");
+                testText.text = "Player in view";
             }
+           
         }
 
     }

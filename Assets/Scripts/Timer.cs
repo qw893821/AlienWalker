@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 public class Timer{
     public float time;
-    public float timer=0f;
+    /*public*/ float timer=0f;
     public bool isInner;
     public bool isOutter;
 
@@ -32,8 +32,13 @@ public class Timer{
         }
         else
         {
-            timer = 0;
+            TimerReset();
         }
     }
 
+    //reset timer to 0;
+    public void TimerReset()
+    {
+        timer = 0;
+    }
 }

@@ -39,7 +39,7 @@ public class PlayerActionController: MonoBehaviour, IActionController {
         }
 
         //temp code
-        
+       
     }
 
 
@@ -148,7 +148,7 @@ public class PlayerActionController: MonoBehaviour, IActionController {
         else
         {
             //StopCoroutine(DoubleTimer());
-            doubleTimer.timer = 0f;
+            //doubleTimer.timer = 0f;
             doubleTimer.trigger = false;
             act= Action.run;
         }
@@ -167,6 +167,7 @@ public class PlayerActionController: MonoBehaviour, IActionController {
         //add a condiition check to stop the interator
         else
         {
+            doubleTimer.TimerReset();
             yield return null;
         }
     }
